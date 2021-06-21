@@ -180,15 +180,11 @@ nohup ./sd>/dev/null 2>&1 &
 tar xvfz manager-xxx.tar.gz
 ```
 2. 修改Manager的配置conf/svr.yml： 
-  - 修改redis配置：  
-    redis.passwd为redis密码（为空可不设置）。  
-    如果使用的是redis集群，请将集群地址列表配置到redis.addrs中，如果是单实例redis，则将地址配置到redis.addr中。**redis.addr和redis.addrs只需要配置一个即可**
+  - 修改redis配置：redis.passwd为redis密码（为空可不设置）。redis.addrs为redis地址。
   - 将sd.addrs修改为服务发现集群的地址列表。（即步骤4中部署的ServiceDiscovery的ip:port）
   - 将 mongo.uri 修改为mongodb集群的uri地址，格式为 mongodb://{{user_name}}:{{passwd}}@{{ip}}:{{port}}/{{dbname}}?authSource={{dbname}} 。并且将mongo.dbname修改为对应的db名
 ```
-# addr和addrs只需配置一个，redis集群则配置addrs，单机redis则配置addr
 redis:
-  addr: 127.0.0.1:6379
   addrs: ["127.0.0.1:6379"]
   passwd:
   
@@ -579,13 +575,7 @@ curl --location -H 'token:xxxxxxxxx' --request POST 'http://127.0.0.1:6701/api/v
 ####  3.1 查询任务状态
 ```  
 #查询task 1617876668390045859aiCMRA的执行状态
-curl --location -H 'token:xxxxxxxxx' --request GET 'http://127.0.0.1:6701/api/v1/agent/getTask/1617876668390045859aiCMRA?result=true&detail=false' \
---data-raw '{
-    "task_id": "task-1617097443663532000-Bzgb",
-    "action": "run",
-    "rolling_percent": 0.5,
-    "concurrence": 1
-}'
+curl --location -H 'token:xxxxxxxxx' --request GET 'http://127.0.0.1:6701/api/v1/agent/getTask/1617876668390045859aiCMRA?result=true&detail=false'
 ```
 ### 4. 设置Agent默认配置
 ####  4.1 设置Agent默认配置
